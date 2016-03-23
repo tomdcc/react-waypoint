@@ -171,7 +171,6 @@ var Waypoint = function (_React$Component) {
         // No change since last trigger
         return;
       }
-      console.log('handleScroll', previousPosition, currentPosition);
 
       if (currentPosition === POSITIONS.inside) {
         this.props.onEnter.call(this, event, previousPosition);
@@ -209,7 +208,8 @@ var Waypoint = function (_React$Component) {
       if (node.offsetParent === this.scrollableAncestor || !node.offsetParent) {
         return node.offsetTop;
       } else {
-        return node.offsetTop + this._distanceToTopOfScrollableAncestor(node.offsetParent);
+        var nextOffset = this._distanceToTopOfScrollableAncestor(node.offsetParent);
+        return nextOffset === null ? null : node.offsetTop + nextOffset;
       }
     }
 
@@ -223,7 +223,7 @@ var Waypoint = function (_React$Component) {
     key: '_currentPosition',
     value: function _currentPosition() {
       var waypointTop = this._distanceToTopOfScrollableAncestor(_reactDom2.default.findDOMNode(this));
-      if (waypointTop == null) {
+      if (waypointTop === null) {
         // not visible
         return POSITIONS.invisible;
       }
